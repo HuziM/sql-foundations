@@ -1,3 +1,7 @@
+####Started on 2024-06-25 by creating a new database and 2 tables: Sales_Transactions and Customers
+## This script creates the Sales_Transactions and Customers tables, inserts sample data, 
+### and performs various queries based on practicing joins.
+
 DROP TABLE IF EXISTS "Sales_Transactions";
 CREATE TABLE "Sales_Transactions" (
 	Transaction_ID SERIAL PRIMARY KEY,
