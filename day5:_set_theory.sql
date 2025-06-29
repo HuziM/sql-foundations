@@ -127,3 +127,46 @@ INTERSECT
 SELECT ST.customer_id, ST.product_id 
 FROM "Sales_Transactions" ST
 WHERE ST.customer_id > 6;
+
+SELECT * FROM "Customers";
+###Create a new table Leads to show status of customers and how many leads were converted to customers.
+DROP TABLE IF EXISTS "Leads";
+CREATE TABLE "Leads" (
+    lead_id SERIAL PRIMARY KEY,
+    lead_name TEXT
+);
+INSERT INTO "Leads" (lead_name)
+VALUES
+('Lucas'),
+('Harry'),
+('Sarah'),
+('Alice'),
+('Hansen'),
+('Doe'),
+('Bob');
+
+
+###Show leads who became customers (INTERSECT)
+SELECT C.customer_name 
+FROM "Customers" C
+INTERSECT
+SELECT L.lead_name 
+FROM "Leads" L;
+
+
+###Show customers not from leads (EXCEPT)
+SELECT C.customer_name 
+FROM "Customers" C
+EXCEPT
+SELECT L.lead_name 
+FROM "Leads" L;
+
+###Tag all leads with Status: 'Converted' or 'Unconverted' using LEFT JOIN
+SELECT C.customer_name, 
+       CASE 
+           WHEN L.lead_id IS NOT NULL THEN 'Converted' 
+           ELSE 'Unconverted' 
+       END AS status
+FROM "Customers" C
+LEFT JOIN "Leads" L ON C.customer_name = L.lead_name
+ORDER BY L.lead_id;
