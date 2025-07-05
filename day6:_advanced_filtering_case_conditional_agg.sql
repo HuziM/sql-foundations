@@ -148,3 +148,26 @@ FROM "Sales_Transactions" ST
 GROUP BY C.customer_id, C.customer_name
 ORDER BY total_spent DESC
 LIMIT 3;
+
+
+###Incorporating CASE LOGIC INTO WHERE CLAUSES
+###10. Filter based on a business rule that changes by category
+SELECT ST.*, P.category
+FROM "Sales_Transactions" ST
+JOIN "Product" P ON ST.product_id = P.product_id
+WHERE ST.amount >
+  CASE 
+    WHEN P.category = 'Electronics' THEN 400
+    WHEN P.category = 'Accessories' THEN 100
+    ELSE 0
+  END;
+
+###11: Show transactions based on different date ranges per product
+SELECT ST.*, P.product_name
+FROM "Sales_Transactions" ST
+JOIN "Product" P ON ST.product_id = P.product_id
+WHERE ST.transaction_date >= 
+  CASE 
+    WHEN P.price >= 500 THEN CURRENT_DATE - INTERVAL '5 days'
+    ELSE CURRENT_DATE - INTERVAL '30 days'
+  END;
